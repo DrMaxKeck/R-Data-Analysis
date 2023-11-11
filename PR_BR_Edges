@@ -1,0 +1,55 @@
+#Mit diesem Code möchte ich die aus der Personal- und Betriebsreätebefragung gewonnenen Ergebnisse
+#für eine Social Network Analyse aufbereiten.
+#Zu diesem Zweck wird eine Edges Tabelle erstellt und
+# in Excel geschrieben. Der Ursprungsdatensatz
+#besteht aus Fällen und den Ergebnissen einer Mehrfachauswahl zu in
+#Betrieben angebotene Maßnahmen für ältere Beschäftigte
+
+# Set the CRAN mirror
+chooseCRANmirror("https://cran.uni-muenster.de")
+40
+# Load the 'haven' package for reading SPSS files
+library(haven)
+if (!require(tidyr)) {install.packages("tidyr")}
+library (tidyr)
+
+# Read the SPSS file
+data_spss <- read_sav("C:/users/Keck/Desktop/Factominer_Null_keine_Missing.sav")
+
+# Convert factor variables back to numeric
+data_spss_numeric <- sapply(data_spss, as.numeric)
+data_spss_numeric <- subset(data_spss_numeric, select = -ID)
+
+# Create a joint frequency matrix
+joint_freq_matrix <- crossprod(data_spss_numeric)
+
+# Find the row and column indices of non-zero values (edges)
+edges <- which(joint_freq_matrix != 0, arr.ind = TRUE)
+
+# Create a data frame from the edges
+edge_list <- data.frame(
+  source = rownames(joint_freq_matrix)[edges[, 1]],
+  target = rownames(joint_freq_matrix)[edges[, 2]],
+  Frequency = joint_freq_matrix[edges]
+)
+
+edges_expanded <- edge_list[rep(seq(nrow(edge_list)), 
+                                edge_list$Frequency), 1:2]
+
+install.packages(writexl)
+# Load the 'writexl' package for writing Excel files
+library(writexl)
+
+# Assuming you have already created the 'edge_list' data frame
+
+# Define the file name
+file_name <- "PR_BR_Edges_List.xlsx"
+
+folder_path <- 
+"HIER MEINEN FOLDER DEFINIEREN"
+
+write_xlsx(edges_expanded, path = paste0(folder_path, file_name))
+
+
+# Print a message to confirm the export
+cat("Edge list has been exported to", file_name, "\n")
