@@ -1,7 +1,12 @@
+# Mit dieser Datei sollen Personen
+# die zwischen dem Lebensalter 17 bis 34 Arbeitslos waren darsgestellt werden.
+# Die Daten wurden f√ºr die Sequenzmusteranalyse mit TraMineR vorher in SPSS aufbereitet.
+
+
 library (TraMineR)
 library (foreign)
 
-Seq<-read.spss("C:/Users/Max/Documents/Organisation und Ziele/Doktor/Doktorarbeit/Kapitel3/Teilkapitel Arbeitslose/FINAL_Sequenzmuster_Rechnung_Ergebnisse/17_34/17_34_R.sav", to.data.frame=TRUE)
+Seq<-read.spss("XX/17_34_R.sav", to.data.frame=TRUE)
 
 seqstatl(Seq[, 2:217])
 
@@ -37,11 +42,11 @@ seqmtplot(Seq.seq, group = cl1.4fac, with.legend=TRUE)
 
 
 #Mit folgender Eingabe kann ich jetzt die PIDs der einzelnen Gruppen mir ausgeben lassen. Damit kann ich dann wieder
-#zur¸ck ins SPSS und tiefere Analysen der einzelnen Gruppen machen.
+#zur√ºck ins SPSS und tiefere Analysen der einzelnen Gruppen machen.
 
 Seq.num <- seqdef(Seq, 1)
 
 
-#Hier bei Cl1.4 die Gruppennummer einf¸gen
+#Hier bei Cl1.4 die Gruppennummer einf√ºgen
 
 table (Seq.num) [cl1.4==1]
