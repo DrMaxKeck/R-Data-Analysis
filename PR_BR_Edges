@@ -13,6 +13,10 @@ library(haven)
 if (!require(tidyr)) {install.packages("tidyr")}
 library (tidyr)
 
+install.packages(writexl)
+# Load the 'writexl' package for writing Excel files
+library(writexl)
+
 # Read the SPSS file
 data_spss <- read_sav("C:/users/Keck/Desktop/Factominer_Null_keine_Missing.sav")
 
@@ -33,23 +37,26 @@ edge_list <- data.frame(
   Frequency = joint_freq_matrix[edges]
 )
 
+##### 1. Export Edges List in SPSS File
+
+file_name <- "PR_BR_Edge_List.xlsx"
+
+folder_path <- 
+  "C:/Users/keck/Documents/Organisation und Ziele/2023/R-Programmierung/Ergebnisse"
+
+write_xlsx(edge_list, path = paste0(folder_path, file_name))
+
+cat("Edge list has been exported to", file_name, "\n")
+
+# Now the Edges are written in rows
+
 edges_expanded <- edge_list[rep(seq(nrow(edge_list)), 
                                 edge_list$Frequency), 1:2]
 
-install.packages(writexl)
-# Load the 'writexl' package for writing Excel files
-library(writexl)
 
-# Assuming you have already created the 'edge_list' data frame
-
-# Define the file name
-file_name <- "PR_BR_Edges_List.xlsx"
+file_name <- "PR_BR_Edges_Expanded.xlsx"
 
 folder_path <- 
-"HIER MEINEN FOLDER DEFINIEREN"
+"C:/Users/keck/Documents/Organisation und Ziele/2023/R-Programmierung/Ergebnisse"
 
 write_xlsx(edges_expanded, path = paste0(folder_path, file_name))
-
-
-# Print a message to confirm the export
-cat("Edge list has been exported to", file_name, "\n")
