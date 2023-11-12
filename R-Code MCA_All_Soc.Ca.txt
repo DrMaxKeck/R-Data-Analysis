@@ -4,9 +4,6 @@
 
 # Wir machen die Correspondence analyse mit dem Paket soc.ca
 # dieses Paket kann auch mit fehlenden Werte umgehen.
-# Ein tutorial dafür gibt es unter 
-#https://github.com/Rsoc/soc.ca/wiki/How-to-use-soc.ca---This-page-is-outdated
-# auch hier: https://cran.r-project.org/web/packages/soc.ca/soc.ca.pdf ab Seite 13
 
 # Wichtig ist: Die Datei die eingelesen wird muß so vorliegen, dass Fälle in den Zeilen sind
 # und die Variablen in den Spalten. Auch habe ich immer die Identifikationsnummern (Zum Beispiel im
@@ -29,7 +26,7 @@ chooseCRANmirror("https://cran.uni-muenster.de")
 #Sprache auf Englisch umstellen
 Sys.setenv(LANG = "en")
 
-data_spss <- read_sav ("C:/users/Keck/Desktop/Factominer_Null_keine_Missing.sav")
+data_spss <- read_sav ("XX/Factominer_Null_keine_Missing.sav")
 
 # Soc.ca installieren
 if (!require(soc.ca)) {install.packages("soc.ca")} 
