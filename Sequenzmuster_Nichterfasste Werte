@@ -1,11 +1,16 @@
+# Mit dieser Datei soll 
+# Eine Sequenzmusterdarstellung für nichterfasste Werte für die
+# Armutsgruppen erstellt werden.
+
+
 library(TraMineR)
 library(foreign)
 
 Seq<-read.spss("C:/Users/Max/Documents/Organisation und Ziele/Doktor/Doktorarbeit/Kapitel3/Auswertungen/1.1 Nichterfasste Werte/New2.sav", to.data.frame=TRUE)
 
 
-#nur die labels definieren, die tats�chlich auch vorkommen im Datensatz.
-#das raster beinhaltete auchnoch "prek�r und ungruppiert", sowie "nichtarm und ungruppiert"
+#nur die labels definieren, die tatsächlich auch vorkommen im Datensatz.
+#das raster beinhaltete auchnoch "prekär und ungruppiert", sowie "nichtarm und ungruppiert"
 
 Seq.labels<-c("keine Angabe", "Zuordnung erfolgreich", "keine Erfassung", "Nichtarm")
 
