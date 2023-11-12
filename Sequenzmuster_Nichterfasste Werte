@@ -1,12 +1,13 @@
 # Mit dieser Datei soll 
 # Eine Sequenzmusterdarstellung für nichterfasste Werte für die
 # Armutsgruppen erstellt werden.
+# Die Daten wurden für die Sequenzmusteranalyse mit TraMineR vorher in SPSS aufbereitet.
 
 
 library(TraMineR)
 library(foreign)
 
-Seq<-read.spss("C:/Users/Max/Documents/Organisation und Ziele/Doktor/Doktorarbeit/Kapitel3/Auswertungen/1.1 Nichterfasste Werte/New2.sav", to.data.frame=TRUE)
+Seq<-read.spss("xx/New2.sav", to.data.frame=TRUE)
 
 
 #nur die labels definieren, die tatsächlich auch vorkommen im Datensatz.
