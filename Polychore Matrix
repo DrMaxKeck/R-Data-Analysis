@@ -15,7 +15,7 @@ Sys.setenv(LANG = "en")
 #paket installieren um spss daten einzulesen
 if (!require(haven)) {install.packages("haven")}
 library (haven)
-data_spss <- read_sav ("C:/users/Keck/Desktop/Factominer_Null_keine_Missing.sav")
+data_spss <- read_sav ("XX/Factominer_Null_keine_Missing.sav")
 # Paket installieren
 if (!require(polycor)) {install.packages("polycor")}
 library (polycor)
