@@ -1,0 +1,47 @@
+library (TraMineR)
+library (foreign)
+
+Seq<-read.spss("C:/Users/Max/Documents/Organisation und Ziele/Doktor/Doktorarbeit/Kapitel3/Teilkapitel Arbeitslose/FINAL_Sequenzmuster_Rechnung_Ergebnisse/17_34/17_34_R.sav", to.data.frame=TRUE)
+
+seqstatl(Seq[, 2:217])
+
+Seq.alphabet <- c("Arbeitslosigkeit", "Ausbildung", "Erwerbstaetig", "keine Angabe", "Rente und Pension", "Reproduktionsarbeit")
+
+Seq.labels <- c("Arbeitslosigkeit", "Ausbildung", "Erwerbstaetig", "keine Angabe", "Rente und Pension", "Reproduktionsarbeit")
+
+Seq.scodes <- c("Arlo", "Ausb", "EWT", "kA", "Rent", "Repr")
+
+Seq.seq <- seqdef(Seq, 2:217, alphabet = Seq.alphabet, states = Seq.scodes, 
+    labels = Seq.labels)
+
+
+seqdplot(Seq.seq, with.legend = TRUE, border = NA)
+
+dist.om1 <- seqdist(Seq.seq, method = "DHD", indel = 1, sm = "TRATE")
+
+library(cluster)
+clusterward1 <- agnes(dist.om1, diss = TRUE, method = "ward")
+plot(clusterward1, which.plot = 2)
+cl1.4 <- cutree(clusterward1, k = 5)
+cl1.4fac <- factor(cl1.4, labels = paste("Type", 1:5))
+
+par(mfrow = c(2, 3))
+
+seqdplot(Seq.seq, group = cl1.4fac, sortv = "from.start")
+
+seqrplot(Seq.seq, diss = dist.om1, group = cl1.4fac,
+    border = NA)
+seqmsplot(Seq.seq, group = cl1.4fac, with.legend=TRUE)
+seqmtplot(Seq.seq, group = cl1.4fac, with.legend=TRUE)
+
+
+
+#Mit folgender Eingabe kann ich jetzt die PIDs der einzelnen Gruppen mir ausgeben lassen. Damit kann ich dann wieder
+#zurück ins SPSS und tiefere Analysen der einzelnen Gruppen machen.
+
+Seq.num <- seqdef(Seq, 1)
+
+
+#Hier bei Cl1.4 die Gruppennummer einfügen
+
+table (Seq.num) [cl1.4==1]

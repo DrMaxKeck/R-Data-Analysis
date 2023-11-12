@@ -1,0 +1,32 @@
+library(TraMineR)
+library(foreign)
+
+Seq<-read.spss("C:/Users/Max/Documents/Organisation und Ziele/Doktor/Doktorarbeit/Kapitel3/Auswertungen/1.1 Nichterfasste Werte/New2.sav", to.data.frame=TRUE)
+
+
+#nur die labels definieren, die tatsächlich auch vorkommen im Datensatz.
+#das raster beinhaltete auchnoch "prekär und ungruppiert", sowie "nichtarm und ungruppiert"
+
+Seq.labels<-c("keine Angabe", "Zuordnung erfolgreich", "keine Erfassung", "Nichtarm")
+
+
+
+Seq1<-seqdef(Seq, 2:35, labels=Seq.labels, cpal=c("gray78","gray40","gray0","white"))
+
+seqIplot(Seq1)
+
+
+###Gruppenprofile###
+submat   <- seqsubm(Seq1, method= "TRATE")
+dist.om1 <- seqdist(Seq1, method="OM", indel=1, sm=submat)
+
+library(cluster)
+clusterward1 <- agnes(dist.om1, diss=TRUE, method="ward")
+plot(clusterward1)
+cl1.3 <- cutree(clusterward1, k=4)
+cl1.3fac <- factor(cl1.3, labels = c("Typ 1", "Typ 2", "Typ 3", "Typ 4"))
+seqIplot(Seq1,group=cl1.3,withlegend=T)
+
+
+seqdplot(Seq1, group=cl1.3fac, border=NA, row=5, cols=2)
+seqIplot(Seq1,title="Cluster sortiert nach Beginn Typ",group=cl1.3,sortv = "from.start",withlegend=F)
