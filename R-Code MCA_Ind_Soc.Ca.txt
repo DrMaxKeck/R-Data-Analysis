@@ -1,0 +1,45 @@
+########## Dieser Code versucht im Rahmen einer MCA
+#zu schauen wie die Individuen geplottet werden können,
+#die in den 1er Variablen einen bestimmten Wert teilen.
+
+# Wir machen die Correspondence analyse mit dem Paket soc.ca
+# dieses Paket kann auch mit fehlenden Werte umgehen.
+# Ein tutorial dafür gibt es unter 
+#https://github.com/Rsoc/soc.ca/wiki/How-to-use-soc.ca---This-page-is-outdated
+# auch hier: https://cran.r-project.org/web/packages/soc.ca/soc.ca.pdf ab Seite 13
+
+# Wichtig ist: Die Datei die eingelesen wird muß so vorliegen, dass Fälle in den Zeilen sind
+# und die Variablen in den Spalten. Auch habe ich immer die Identifikationsnummern (Zum Beispiel im
+# SOEP) weggemacht.
+
+
+#paket installieren um spss daten einzulesen
+if (!require(haven)) {install.packages("haven")} 
+library (haven)
+
+# Cran mirror automatisch setzen 
+
+chooseCRANmirror("https://cran.uni-muenster.de")
+39
+
+#Sprache auf Englisch umstellen
+Sys.setenv(LANG = "en")
+
+data_spss <- read_sav ("C:/users/Keck/Desktop/Factominer_Null_keine_Missing.sav")
+
+# Soc.ca installieren
+if (!require(soc.ca)) {install.packages("soc.ca")} 
+library (soc.ca)
+
+attach(data_spss)
+
+desired_levels <- c("0", "1")
+
+# Die Variablen als Faktoren definieren, damit die MCA gemacht werden kann.
+for (col in colnames(data_spss)) { data_spss[[col]] <- factor(data_spss[[col]], levels = desired_levels)}
+
+# Soc.ca installieren
+if (!require(soc.ca)) {install.packages("soc.ca")} 
+library (soc.ca)
+
+active <- data_spss
