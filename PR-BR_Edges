@@ -1,0 +1,60 @@
+# Hier werden für die PR_BR
+# zwei verschiednee Formen der edges-listen erstellt.
+# Einmal mit den Häufigkeiten pro Paar, und einmal
+# mit den Expandierten Häufigkeiten.
+
+# Set the CRAN mirror
+chooseCRANmirror("https://cran.uni-muenster.de")
+40
+# Load the 'haven' package for reading SPSS files
+library(haven)
+if (!require(tidyr)) {install.packages("tidyr")}
+library (tidyr)
+
+install.packages(writexl)
+# Load the 'writexl' package for writing Excel files
+library(writexl)
+
+# Read the SPSS file
+data_spss <- read_sav("FactoMiner_Null_keine_missings.sav")
+
+# Convert factor variables back to numeric
+data_spss_numeric <- sapply(data_spss, as.numeric)
+data_spss_numeric <- subset(data_spss_numeric, select = -ID)
+
+# Create a joint frequency matrix
+joint_freq_matrix <- crossprod(data_spss_numeric)
+
+# Find the row and column indices of non-zero values (edges)
+edges <- which(joint_freq_matrix != 0, arr.ind = TRUE)
+
+# Create a data frame from the edges
+edge_list <- data.frame(
+  source = rownames(joint_freq_matrix)[edges[, 1]],
+  target = rownames(joint_freq_matrix)[edges[, 2]],
+  Frequency = joint_freq_matrix[edges]
+)
+
+##### 1. Export Edges List in SPSS File
+
+file_name <- "PR_BR_Edge_List.xlsx"
+
+folder_path <- 
+  "XX"
+
+write_xlsx(edge_list, path = paste0(folder_path, file_name))
+
+cat("Edge list has been exported to", file_name, "\n")
+
+# Now the Edges are written in rows
+
+edges_expanded <- edge_list[rep(seq(nrow(edge_list)), 
+                                edge_list$Frequency), 1:2]
+
+
+file_name <- "PR_BR_Edges_Expanded.xlsx"
+
+folder_path <- 
+"XX"
+
+write_xlsx(edges_expanded, path = paste0(folder_path, file_name))

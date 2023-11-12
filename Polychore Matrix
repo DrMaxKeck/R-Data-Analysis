@@ -1,0 +1,34 @@
+# Hier wird eine Polychore Matrix berechnet, 
+# Mit dieser Matrix können Zusammenhänge zwischen
+# zwei Binär (0/1) codierten Dummy-Variablen
+# dargestellt werden.
+# Es kann aber auch eine Faktorenanalyse mit
+# binären Items auf dieser Grundlage durchgeführt werden.
+# Zudem kann mit einer solchen Polychoren Matrix eine
+# Korrespondenzgrafik erstellt werden.
+
+
+chooseCRANmirror("https://cran.uni-muenster.de")
+40
+#Sprache auf Englisch umstellen
+Sys.setenv(LANG = "en")
+#paket installieren um spss daten einzulesen
+if (!require(haven)) {install.packages("haven")}
+library (haven)
+data_spss <- read_sav ("XX/Factominer_Null_keine_Missing.sav")
+# Paket installieren
+if (!require(polycor)) {install.packages("polycor")}
+library (polycor)
+# Die Variablen als Faktoren definieren, damit die Analyse gemacht werden kann.
+data_spss <- sapply(data_spss, as.factor)
+head(data_spss)
+#erstellen einer leeren Matrix.
+n <- ncol(data_spss); m <- n
+cormat <- matrix(nrow=n, ncol=m, data=NA)
+for (i in 1:n){
+for(j in 1:m){
+cormat[i,j] <- polychor(data_spss[,i], data_spss[,j])
+}
+}
+diag(cormat) <- 1
+print(cormat)
